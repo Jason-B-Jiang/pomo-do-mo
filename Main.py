@@ -28,6 +28,10 @@ classes for all of the widgets in the window (timers, input boxes, buttons)."""
 # 5) Separate each the button, timer, input and main app classes into their own
 #    modules
 #
+# KNOWN BUGS:
+# - Rapidly pausing/unpausing the timers can cause the app to crash;
+#   may disable start/stop button briefly after it is pressed to fix this
+#
 # ---------------------------------------------------------------------------
 
 # Imports
