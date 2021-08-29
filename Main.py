@@ -16,14 +16,12 @@
 # 2) Keep track of how many Pomodoro cycles a user has worked through in a
 #    single session of using the app, and how much time they've worked
 #
-# 3) Create a pop-up window telling users to input valid number of minutes into
-#    the entry boxes, when an invalid input is given
-#
-# 4) Add hours, minutes and seconds labels to the timer widgets
+# 3) Add hours, minutes and seconds labels to the timer widgets
 #
 # ---------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    from PomodomoApp import *
+    from PomodomoApp import PomodomoApp
+
     pomodomo = PomodomoApp()
     pomodomo.mainloop()

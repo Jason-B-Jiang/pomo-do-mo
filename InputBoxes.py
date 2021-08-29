@@ -12,15 +12,16 @@ set their own work and break times."""
 
 # ---------------------------------------------------------------------------
 
+import tkinter as tk
 # Imports
 from tkinter import Entry
-import tkinter as tk
 
 
 class _UserTimeInput(Entry):
     """An Entry subclass to allow users to input work and break times, in the
     Pomo-do-mo app.
     """
+
     def __init__(self, root: tk.Tk) -> None:
         Entry.__init__(self, root, font='Arial')
 
@@ -45,6 +46,7 @@ class _UserTimeInput(Entry):
 class _WorkTimeInput(_UserTimeInput):
     """An _UserTimeInput subclass for a widget of user input work time.
     """
+
     def __init__(self, root: tk.Tk) -> None:
         _UserTimeInput.__init__(self, root)
 
@@ -55,6 +57,7 @@ class _WorkTimeInput(_UserTimeInput):
 class _BreakTimeInput(_UserTimeInput):
     """An _UserTimeInput subclass for a widget of user input break time.
     """
+
     def __init__(self, root: tk.Tk) -> None:
         _UserTimeInput.__init__(self, root)
 

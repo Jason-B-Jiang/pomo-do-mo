@@ -16,10 +16,13 @@
 from __future__ import annotations
 import tkinter as tk
 from tkinter import *
+import tkinter.messagebox
 
 from Buttons import _Button
 from Timers import _Timer
 from InputBoxes import _WorkTimeInput, _BreakTimeInput
+
+INVALID_INPUT_ERROR = 'Please enter a whole number of minutes as work/break time.'
 
 
 def _is_valid_time(s: str) -> bool:
@@ -135,7 +138,9 @@ class PomodomoApp(tk.Tk):
 
                 # start countdown loop, after a 1 second delay to prevent the
                 # first second from counting down immediately
+                self.start_and_pause_button.disable_button()
                 self.after(1000, self._pomodomo_countdown_loop)
+                self.after(1000, self.start_and_pause_button.enable_button)
 
                 # disable the entry boxes for work and break time when the
                 # pomodomo app has started
@@ -146,14 +151,15 @@ class PomodomoApp(tk.Tk):
                 self.reset_button.enable_button()
 
             else:
-                # TODO - make this a pop-up message for the user
-                print("Invalid work/break time input. Please enter an integer.")
+                tkinter.messagebox.showinfo('Invalid input time!',
+                                            INVALID_INPUT_ERROR)
 
         # User pressed start/stop button again after it was started, so pause
         # execution of the pomodomo countdown loop
         elif not self.paused:
             self.paused = True
-            self.after_cancel(pomodomo_loop)  # end the countdown loop
+            self.start_and_pause_button.disable_button()
+            self.after(1000, self.start_and_pause_button.enable_button)
 
         else:  # App had started, and was paused
             self.paused = False  # unpause the pomodomo app
@@ -198,10 +204,9 @@ class PomodomoApp(tk.Tk):
                 self.work_timer.reset_time_left()
                 self.break_timer.reset_time_left()
 
-            # Make the countdown loop a global variable, so it can easily
-            # be stopped by self.after_cancel
-            global pomodomo_loop
-            pomodomo_loop = self.after(1000, self._pomodomo_countdown_loop)
+            # Let the method recursively call itself, to keep counting down on
+            # the timers
+            self.after(1000, self._pomodomo_countdown_loop)
 
         else:  # App was paused or reset, so stop the timer countdown loop
             return

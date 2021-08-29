@@ -21,31 +21,25 @@ from tkinter import Label
 
 
 def _is_valid_time(s: str) -> bool:
-    """Returns whether a user-inputted time is a valid integer number of
-    minutes, that is greater than zero.
-
-    Credit to https://note.nkmk.me/en/python-check-int-float/ for this
-    function code
+    """Returns whether a user-inputted time is a non-negative and non-zero
+    integer or float.
 
     >>> _is_valid_time('ooooo')
     False
     >>> _is_valid_time('90')
     True
-    >>> _is_valid_time('29.20023')
+    >>> _is_valid_time('0.5')
     False
     >>> _is_valid_time('0')
-    False
+    True
     >>> _is_valid_time('-23.4')
     False
     """
     try:
-        tmp = float(s)
+        return s.isdigit() and int(s) >= 0
 
     except ValueError:
-        return False  # s wasn't an int, or float coercible to int
-
-    else:  # check if float is coercible to int
-        return tmp.is_integer() and tmp > 0
+        return False  # s wasn't an int or a float
 
 
 class _Timer(Label):
@@ -120,14 +114,8 @@ class _Timer(Label):
         if minutes >= 60:
             hours = minutes // 60  # Get hours from minutes if >= 60 mins
             minutes = minutes % 60  # Get overflowing minutes from hour
-        else:
-            minutes = 0
 
-        # get seconds from user input time
-        seconds = round((float(input_time) - minutes) * 60)
-
-        new_work_time = datetime.timedelta(hours=hours, minutes=minutes,
-                                           seconds=seconds)
+        new_work_time = datetime.timedelta(hours=hours, minutes=minutes)
 
         # Update _work_time and _work_time_left to the new user-inputted work
         # time, and change text of the _WorkTime object to reflect the new
